@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
-import { Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Row, Label,Col } from 'reactstrap';
-import {Link} from 'react-router-dom';
+import { Button, Modal, ModalHeader, ModalBody, Row, Label,Col } from 'reactstrap';
 import { LocalForm, Control, Errors } from 'react-redux-form';
-
-// import CommentForm from './CommentFormComponent';
 
 const required = (val) => val && val.length;
 const maxlength = (len) => (val) => !(val) || (val.length <= len);
@@ -101,56 +98,4 @@ class CommentForm extends Component {
     }
 }
 
-const dishDetailComponents = (props) => {
-    if(props.dish) {
-        return(
-            <div className='container'>
-                <div className='row'>
-                    <Breadcrumb>
-                        <BreadcrumbItem>
-                            <Link to='/menu'>Menu</Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbItem active>
-                            {props.dish.name}
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                    <div className='col-12'>
-                        <h3>Menu</h3>
-                        <hr/>
-                    </div>
-                </div>
-                <div className="row">
-                    <div  className="col-12 col-md-5 m-1">
-                        <div>
-                            <Card>
-                                <CardImg top src={props.dish.image} alt={props.dish.name} />
-                                <CardBody>
-                                    <CardTitle>{props.dish.name}</CardTitle>
-                                    <CardText>{props.dish.description}</CardText>
-                                </CardBody>
-                            </Card>
-                        </div>
-                    </div>
-                    {props.comments ? (
-                        <div className="col-12 col-md-5 m-1">
-                            <h4>Comments</h4>
-                            <ul className='list-unstyled'>{props.comments.map((comment)=>(
-                                <li key={comment.id}>
-                                    <p>{comment.comment}</p>
-                                    <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month:'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
-                                </li>
-                            ))}</ul>
-                            <CommentForm />
-                        </div>
-                    ): null}
-                </div>
-            </div>
-        )
-    } else {
-        return (<div></div>)
-    }
-        
-    
-};
-
-export default dishDetailComponents;
+export default CommentForm;
