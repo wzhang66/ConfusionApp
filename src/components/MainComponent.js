@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import { actions } from 'react-redux-form';
 
 import Contact from './ContactComponent';
 import Home from './HomeComponent';
@@ -45,7 +46,7 @@ class Main extends Component{
                 <Route exact path='/aboutus' component={()=><About leaders={this.props.leaders} />} />
                 <Route exact path='/menu' component={()=><Menu dishes={this.props.dishes}/>} />
                 <Route path='/menu/:dishId' component={DishWithId} />
-                <Route exact path='/contactus' component={Contact} />
+                <Route exact path='/contactus' component={()=> <Contact resetFeedbackForm = {this.props.resetFeedbackForm} />} />
                 <Redirect to='/home' />
             </Switch>
             <Footer />
@@ -65,7 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => ({
     addComment: (dishId, rating, author, commemt) => dispatch(addComment(dishId, rating, author, commemt)),
-    fetchDishes: () => {dispatch(fetchDishes())}
+    fetchDishes: () => {dispatch(fetchDishes())},
+    resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
