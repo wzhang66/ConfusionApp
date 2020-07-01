@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 
 import { Loading } from './LoadingComponent';
+import { baseURL } from '../shared/baseURL';
 // import CommentForm from './CommentFormComponent';
 
 const required = (val) => val && val.length;
@@ -142,7 +143,7 @@ const dishDetailComponents = (props) => {
                     <div  className="col-12 col-md-5 m-1">
                         <div>
                             <Card>
-                                <CardImg top src={props.dish.image} alt={props.dish.name} />
+                                <CardImg top src={baseURL + props.dish.image} alt={props.dish.name} />
                                 <CardBody>
                                     <CardTitle>{props.dish.name}</CardTitle>
                                     <CardText>{props.dish.description}</CardText>
