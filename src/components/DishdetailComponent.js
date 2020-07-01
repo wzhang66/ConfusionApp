@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Row, Label,Col } from 'reactstrap';
 import {Link} from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
+import {FadeTransform, Fade, Stagger} from 'react-animation-components';
 
 import { Loading } from './LoadingComponent';
 import { baseURL } from '../shared/baseURL';
@@ -142,24 +143,35 @@ const dishDetailComponents = (props) => {
                 <div className="row">
                     <div  className="col-12 col-md-5 m-1">
                         <div>
-                            <Card>
-                                <CardImg top src={baseURL + props.dish.image} alt={props.dish.name} />
-                                <CardBody>
-                                    <CardTitle>{props.dish.name}</CardTitle>
-                                    <CardText>{props.dish.description}</CardText>
-                                </CardBody>
-                            </Card>
+                            <FadeTransform in 
+                            transformProps={{
+                                exitTransform: 'scale(0.5) translateY(-50%)'
+                            }}>
+                                <Card>
+                                    <CardImg top src={baseURL + props.dish.image} alt={props.dish.name} />
+                                    <CardBody>
+                                        <CardTitle>{props.dish.name}</CardTitle>
+                                        <CardText>{props.dish.description}</CardText>
+                                    </CardBody>
+                                </Card>
+                            </FadeTransform>
                         </div>
                     </div>
                     {props.comments ? (
                         <div className="col-12 col-md-5 m-1">
                             <h4>Comments</h4>
-                            <ul className='list-unstyled'>{props.comments.map((comment)=>(
-                                <li key={comment.id}>
-                                    <p>{comment.comment}</p>
-                                    <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month:'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
-                                </li>
-                            ))}</ul>
+                            <ul className='list-unstyled'>
+                                <Stagger in>
+                                    {props.comments.map((comment)=>(
+                                    <Fade in>
+                                    <li key={comment.id}>
+                                        <p>{comment.comment}</p>
+                                        <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month:'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                    </li>
+                                    </Fade>
+                                    ))}
+                                </Stagger>
+                            </ul>
                             <CommentForm dishId={props.dish.id} postComment={props.postComment} />
                         </div>
                     ): null}
