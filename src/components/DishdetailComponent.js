@@ -27,7 +27,7 @@ class CommentForm extends Component {
 
     handleSubmit = (values) => {
         console.log(this.props.dishId);
-        this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.name, values.comment);
     }
 
     render(){
@@ -160,7 +160,7 @@ const dishDetailComponents = (props) => {
                                     <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month:'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
                                 </li>
                             ))}</ul>
-                            <CommentForm dishId={props.dish.id} addComment={props.addComment} />
+                            <CommentForm dishId={props.dish.id} postComment={props.postComment} />
                         </div>
                     ): null}
                 </div>
