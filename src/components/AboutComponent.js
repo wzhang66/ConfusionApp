@@ -1,25 +1,40 @@
-    import React from 'react';
+import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {Fade, Stagger} from 'react-animation-components';
+
+import { baseURL } from '../shared/baseURL';
+import { Loading } from './LoadingComponent';
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
+    const leaders = props.leaders.leaders.map((leader) => {
         return (
-            <Media className='pt-5'>
-                <Media left>
-                    <Media object src={leader.image} alt={leader.name} />   
-                </Media>
-                <Media body className='pl-5'>
-                    <Media heading>
-                        {leader.name}
+            <Fade in key={Math.random()}>
+                <Media className='pt-5' >
+                    <Media left>
+                        <Media object src={baseURL + leader.image} alt={leader.name} />   
                     </Media>
-                    <p>{leader.designation}</p>
-                    <p>{leader.description}</p>
+                    <Media body className='pl-5'>
+                        <Media heading>
+                            {leader.name}
+                        </Media>
+                        <p>{leader.designation}</p>
+                        <p>{leader.description}</p>
+                    </Media>
                 </Media>
-            </Media>
+            </Fade>
         );
     });
+
+    let leadersDisplay = <div></div> ;
+    if(props.leaders.isLoading) {
+        leadersDisplay = <Loading />
+    } else if (props.leaders.errMess) {
+        leadersDisplay = <h4>{props.leaders.errMess}</h4>
+    } else {
+        leadersDisplay = <Media list><Stagger in>{leaders}</Stagger></Media>
+    }
 
     return(
         <div className="container">
@@ -75,10 +90,9 @@ function About(props) {
                 <div className="col-12">
                     <h2>Corporate Leadership</h2>
                 </div>
+                
                 <div className="col-12">
-                    <Media list>
-                        {leaders}
-                    </Media>
+                    {leadersDisplay}
                 </div>
             </div>
         </div>
